@@ -1,0 +1,8 @@
+This is free and unencumbered software released into the public domain.
+
+The interactive map shell is adapted from Jameson Lopp's physical-bitcoin-attacks
+project (Unlicense). Layer datasets remain under their upstream licenses
+(ODbL for OSM/BTC Map extracts, CC BY for Ember and WRI-inspired snapshots,
+and the terms of the World Bank, Tax Foundation, Heritage Foundation, and Bitnodes).
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
