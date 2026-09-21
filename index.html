@@ -4,264 +4,52 @@
 <meta charset="utf-8">
 <title>HVE Maps — Five Wealth Layers</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Human Value Exchange sovereign placement map. Rails, fiscal gravity, energy-compute, vitality, time-price.">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0b1220;
-    --bg2: #121a2b;
-    --panel: rgba(11, 18, 32, 0.92);
-    --text: #f4efe4;
-    --muted: #9aa4b2;
-    --gold: #c9a227;
-    --gold2: #e4c56a;
-    --teal: #2a9d8f;
-    --copper: #c26d3a;
-    --line: rgba(201, 162, 39, 0.35);
-    --font-display: "Cormorant Garamond", Georgia, serif;
-    --font-body: "Source Sans 3", system-ui, sans-serif;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; }
-  body { font-family: var(--font-body); background: var(--bg); color: var(--text); overflow: hidden; }
-  #map { position: absolute; inset: 0; background: var(--bg); }
-  #header {
-    position: absolute; top: 0; left: 0; right: 0; z-index: 1000;
-    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
-    padding: 12px 16px;
-    background: linear-gradient(180deg, rgba(11,18,32,.97), rgba(11,18,32,.72) 80%, transparent);
-    border-bottom: 1px solid var(--line);
-  }
-  #header h1 {
-    font-family: var(--font-display); font-size: 1.35rem; font-weight: 600;
-    letter-spacing: .04em; color: var(--gold2); white-space: nowrap;
-  }
-  #header h1 span { color: var(--muted); font-family: var(--font-body); font-size: .78rem; font-weight: 400; margin-left: 8px; }
-  .layers { display: flex; flex-wrap: wrap; gap: 6px; }
-  .layers button {
-    font-family: var(--font-body); font-size: .75rem; font-weight: 600;
-    letter-spacing: .06em; text-transform: uppercase;
-    background: transparent; color: var(--muted);
-    border: 1px solid var(--line); padding: 6px 10px; cursor: pointer;
-  }
-  .layers button.on { color: var(--bg); background: var(--gold); border-color: var(--gold); }
-  .layers button:hover { border-color: var(--gold2); color: var(--gold2); }
-  .layers button.on:hover { color: var(--bg); }
-  #kind-select, #year-label {
-    font-size: .8rem; background: var(--bg2); color: var(--text);
-    border: 1px solid var(--line); padding: 6px 8px;
-  }
-  #panel {
-    position: absolute; top: 78px; right: 12px; width: min(360px, 92vw);
-    max-height: calc(100% - 110px); overflow: auto; z-index: 1000;
-    background: var(--panel); border: 1px solid var(--line); padding: 14px 16px;
-    backdrop-filter: blur(8px);
-  }
-  #panel h2 { font-family: var(--font-display); font-size: 1.3rem; color: var(--gold2); }
-  #panel .blurb { color: var(--muted); font-size: .85rem; margin: 4px 0 12px; }
-  #panel .stat { font-size: 1.6rem; color: var(--teal); font-weight: 700; }
-  #list { list-style: none; }
-  #list li { padding: 8px 0; border-top: 1px solid rgba(244,239,228,.08); font-size: .85rem; }
-  #list a { color: var(--gold2); }
-  #legend {
-    position: absolute; bottom: 18px; left: 12px; z-index: 1000;
-    background: var(--panel); border: 1px solid var(--line); padding: 8px 10px;
-    font-size: .72rem; color: var(--muted);
-  }
-  #legend .bar { height: 8px; width: 160px; margin: 4px 0;
-    background: linear-gradient(90deg, #1b4332, var(--teal), var(--gold), var(--copper)); }
-  #foot {
-    position: absolute; bottom: 8px; right: 12px; z-index: 1000;
-    font-size: .68rem; color: var(--muted); max-width: 46vw; text-align: right;
-  }
-  #foot a { color: var(--gold2); }
-  .leaflet-container { background: #0b1220; font-family: var(--font-body); }
-</style>
-</head>
-<body>
+:root{--bg:#0b1220;--bg2:#121a2b;--panel:rgba(11,18,32,.92);--text:#f4efe4;--muted:#9aa4b2;--gold:#c9a227;--gold2:#e4c56a;--teal:#2a9d8f;--copper:#c26d3a;--line:rgba(201,162,39,.35);--font-display:"Cormorant Garamond",Georgia,serif;--font-body:"Source Sans 3",system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html,body{height:100%}body{font-family:var(--font-body);background:var(--bg);color:var(--text);overflow:hidden}
+#map{position:absolute;inset:0;background:var(--bg)}
+#header{position:absolute;top:0;left:0;right:0;z-index:1000;display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:12px 16px;background:linear-gradient(180deg,rgba(11,18,32,.97),rgba(11,18,32,.72) 80%,transparent);border-bottom:1px solid var(--line)}
+#header h1{font-family:var(--font-display);font-size:1.35rem;color:var(--gold2);font-weight:600}
+#header h1 span{color:var(--muted);font-family:var(--font-body);font-size:.78rem;margin-left:8px}
+.layers button{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--muted);border:1px solid var(--line);padding:6px 10px;cursor:pointer}
+.layers button.on{color:var(--bg);background:var(--gold);border-color:var(--gold)}
+#kind-select,#year-label{font-size:.8rem;background:var(--bg2);color:var(--text);border:1px solid var(--line);padding:6px 8px}
+#panel{position:absolute;top:78px;right:12px;width:min(360px,92vw);max-height:calc(100% - 110px);overflow:auto;z-index:1000;background:var(--panel);border:1px solid var(--line);padding:14px 16px;backdrop-filter:blur(8px)}
+#panel h2{font-family:var(--font-display);font-size:1.3rem;color:var(--gold2)}
+#panel .blurb{color:var(--muted);font-size:.85rem;margin:4px 0 12px}
+#panel .stat{font-size:1.6rem;color:var(--teal);font-weight:700}
+#list{list-style:none}#list li{padding:8px 0;border-top:1px solid rgba(244,239,228,.08);font-size:.85rem}#list a{color:var(--gold2)}
+#legend{position:absolute;bottom:18px;left:12px;z-index:1000;background:var(--panel);border:1px solid var(--line);padding:8px 10px;font-size:.72rem;color:var(--muted)}
+#legend .bar{height:8px;width:160px;margin:4px 0;background:linear-gradient(90deg,#1b4332,var(--teal),var(--gold),var(--copper))}
+#foot{position:absolute;bottom:8px;right:12px;z-index:1000;font-size:.68rem;color:var(--muted);max-width:46vw;text-align:right}#foot a{color:var(--gold2)}
+.leaflet-container{background:#0b1220;font-family:var(--font-body)}
+</style></head><body>
 <div id="map"></div>
-<header id="header">
-  <h1>HVE Maps <span>five wealth layers · sovereign placement</span></h1>
-  <div class="layers" id="layers"></div>
-  <select id="kind-select"></select>
-  <span id="year-label"></span>
-</header>
-<aside id="panel">
-  <h2 id="p-title">World</h2>
-  <div class="blurb" id="p-blurb">Pick a layer. Click a country.</div>
-  <div class="stat" id="p-stat"></div>
-  <ul id="list"></ul>
-</aside>
+<header id="header"><h1>HVE Maps <span>five wealth layers · sovereign placement</span></h1><div class="layers" id="layers"></div><select id="kind-select"></select><span id="year-label"></span></header>
+<aside id="panel"><h2 id="p-title">World</h2><div class="blurb" id="p-blurb">Pick a layer. Click a country.</div><div class="stat" id="p-stat"></div><ul id="list"></ul></aside>
 <div id="legend"><div>Intensity</div><div class="bar"></div><div id="legend-scale"></div></div>
-<div id="foot">
-  Shell after <a href="https://jlopp.github.io/physical-bitcoin-attacks/">Lopp</a> (Unlicense).
-  Data: BTC Map/OSM, Bitnodes aggregates, Ember, Tax Foundation, Heritage, World Bank.
-  <a href="https://humanvalueexchange.com/">Human Value Exchange</a>.
-</div>
+<div id="foot">Shell after <a href="https://jlopp.github.io/physical-bitcoin-attacks/">Lopp</a> (Unlicense). Data: BTC Map/OSM, Bitnodes aggregates, Ember, Tax Foundation, Heritage, World Bank. <a href="https://humanvalueexchange.com/">Human Value Exchange</a>.</div>
 <script>
-const LAYERS = [
-  { id: "rails", title: "Rails", blurb: "Can you move value here?", file: "data/rails.json", defaultKind: "nodes" },
-  { id: "fiscal", title: "Fiscal", blurb: "Is capital allowed to sit?", file: "data/fiscal.json", defaultKind: "property-rights" },
-  { id: "energy", title: "Energy", blurb: "Cheap firm watts", file: "data/energy.json", defaultKind: "firm-share" },
-  { id: "vitality", title: "Vitality", blurb: "Can a body compound here?", file: "data/vitality.json", defaultKind: "life-expectancy" },
-  { id: "timeprice", title: "Time-price", blurb: "What an hour buys", file: "data/timeprice.json", defaultKind: "hours-for-10k-usd" },
-];
-const NAME_ALIAS = {
-  "United States of America": "United States",
-  "Russia": "Russian Federation",
-  "South Korea": "Korea, Rep.",
-  "Egypt": "Egypt, Arab Rep.",
-  "Iran": "Iran, Islamic Rep.",
-  "Venezuela": "Venezuela, RB",
-  "Slovakia": "Slovak Republic",
-  "Czechia": "Czech Republic",
-  "Congo, Dem. Rep.": "Democratic Republic of the Congo",
-  "Tanzania": "Tanzania, United Republic of",
-};
-
-let cache = {};
-let world = null;
-let current = LAYERS[0];
-let kind = current.defaultKind;
-let countryLayer = null;
-let pointLayer = null;
-let selected = null;
-
-const map = L.map("map", { zoomControl: true, minZoom: 2, worldCopyJump: false });
-map.setView([20, 10], 2);
-map.createPane("choro"); map.getPane("choro").style.zIndex = 300;
-map.createPane("pts"); map.getPane("pts").style.zIndex = 450;
-
-function heat(t, worse) {
-  const x = worse ? 1 - t : t;
-  const stops = [[27, 67, 50], [42, 157, 143], [201, 162, 39], [194, 109, 58]];
-  const i = Math.min(stops.length - 2, Math.floor(x * (stops.length - 1)));
-  const f = x * (stops.length - 1) - i;
-  const a = stops[i], b = stops[i + 1];
-  const rgb = a.map((v, k) => Math.round(v + (b[k] - v) * f));
-  return `rgb(${rgb.join(",")})`;
-}
-function normName(s) { return s ? (NAME_ALIAS[s] || s) : ""; }
-function countryKey(rec) { return normName(rec.country || rec.label || ""); }
-async function loadLayer(meta) {
-  if (!cache[meta.id]) {
-    const res = await fetch(meta.file);
-    cache[meta.id] = await res.json();
-  }
-  return cache[meta.id];
-}
-function kindsFor(recs) { return [...new Set(recs.map(r => r.kind).filter(Boolean))]; }
-function filtered(recs, k) {
-  const byKind = recs.filter(r => !k || r.kind === k);
-  return byKind.length ? byKind : recs;
-}
-function countryValues(recs) {
-  const acc = {};
-  for (const r of recs) {
-    if (!r.country || r.kind === "plant" || r.kind === "place") continue;
-    const key = countryKey(r);
-    if (!acc[key]) acc[key] = { sum: 0, n: 0, dir: r.direction, unit: r.unit, samples: [] };
-    if (typeof r.value === "number") { acc[key].sum += r.value; acc[key].n += 1; acc[key].samples.push(r); }
-  }
-  const out = {};
-  for (const [k, v] of Object.entries(acc)) out[k] = { value: v.sum / v.n, dir: v.dir, unit: v.unit, samples: v.samples };
-  return out;
-}
-function extent(vals) {
-  const nums = Object.values(vals).map(v => v.value).filter(n => Number.isFinite(n));
-  return nums.length ? [Math.min(...nums), Math.max(...nums)] : [0, 1];
-}
-function paint() {
-  const recs = filtered(cache[current.id] || [], kind);
-  const vals = countryValues(recs);
-  const [lo, hi] = extent(vals);
-  const worse = Object.values(vals)[0]?.dir === "higher-worse";
-  document.getElementById("legend-scale").textContent =
-    `${lo.toFixed(1)} → ${hi.toFixed(1)} ${Object.values(vals)[0]?.unit || ""}`;
-  if (countryLayer) map.removeLayer(countryLayer);
-  if (pointLayer) map.removeLayer(pointLayer);
-  countryLayer = L.geoJSON(world, {
-    pane: "choro",
-    style: feat => {
-      const name = feat.properties.name;
-      const hit = vals[name] || vals[normName(name)] || vals[NAME_ALIAS[name]];
-      const t = hit ? (hit.value - lo) / (hi - lo || 1) : null;
-      return {
-        color: selected === name ? "#f4efe4" : "rgba(244,239,228,.25)",
-        weight: selected === name ? 2 : 0.5,
-        fillColor: t == null ? "#1a2233" : heat(t, worse),
-        fillOpacity: t == null ? 0.35 : 0.78,
-      };
-    },
-    onEachFeature: (feat, layer) => {
-      layer.on("click", () => {
-        selected = feat.properties.name;
-        openCountry(feat.properties.name, vals, recs);
-        paint();
-      });
-    }
-  }).addTo(map);
-  const pts = recs.filter(r => r.lat != null && r.lng != null && (r.kind === "place" || r.kind === "plant" || r.kind === "nodes"));
-  pointLayer = L.layerGroup();
-  const maxV = Math.max(1, ...pts.map(p => p.value || 1));
-  for (const p of pts.slice(0, 800)) {
-    const r = 4 + 14 * Math.sqrt((p.value || 1) / maxV);
-    L.circleMarker([p.lat, p.lng], {
-      pane: "pts", radius: Math.min(r, 18),
-      color: varGold(), fillColor: varGold(), fillOpacity: 0.35, weight: 1,
-    }).bindPopup(`<b>${p.label}</b><br>${p.value ?? ""} ${p.unit || ""}<br>${p.description || ""}`)
-      .addTo(pointLayer);
-  }
-  pointLayer.addTo(map);
-  document.getElementById("p-title").textContent = current.title;
-  document.getElementById("p-blurb").textContent = current.blurb + " · " + recs.length + " records";
-  if (!selected) {
-    document.getElementById("p-stat").textContent = Object.keys(vals).length + " countries";
-    document.getElementById("list").innerHTML = recs.slice(0, 12).map(r =>
-      `<li><b>${r.label}</b> — ${r.value ?? ""} ${r.unit || ""}</li>`).join("");
-  }
-}
-function varGold() { return getComputedStyle(document.documentElement).getPropertyValue("--gold").trim() || "#c9a227"; }
-function openCountry(name, vals, recs) {
-  const hit = vals[name] || vals[normName(name)];
-  document.getElementById("p-title").textContent = name;
-  document.getElementById("p-stat").textContent = hit ? `${hit.value.toFixed(1)} ${hit.unit || ""}` : "No value";
-  const rows = recs.filter(r => r.country === name || r.country === normName(name) || NAME_ALIAS[r.country] === name);
-  document.getElementById("list").innerHTML = (rows.length ? rows : recs.filter(r => (r.label || "").includes(name)))
-    .slice(0, 20).map(r => {
-      const link = (r.links && r.links[0]) ? ` · <a href="${r.links[0].url}" target="_blank" rel="noopener">${r.links[0].label}</a>` : "";
-      return `<li><b>${r.label}</b><br>${r.value ?? ""} ${r.unit || ""} · ${r.kind || ""}${link}</li>`;
-    }).join("") || "<li>No dossier rows for this country in the active kind.</li>";
-}
-async function setLayer(meta) {
-  current = meta;
-  const recs = await loadLayer(meta);
-  const kinds = kindsFor(recs);
-  kind = kinds.includes(meta.defaultKind) ? meta.defaultKind : kinds[0];
-  const sel = document.getElementById("kind-select");
-  sel.innerHTML = kinds.map(k => `<option value="${k}" ${k === kind ? "selected" : ""}>${k}</option>`).join("");
-  document.querySelectorAll(".layers button").forEach(b => b.classList.toggle("on", b.dataset.id === meta.id));
-  const years = [...new Set(recs.map(r => r.date && r.date.year).filter(Boolean))].sort();
-  document.getElementById("year-label").textContent = years.length ? `${years[0]}–${years[years.length - 1]}` : "";
-  selected = null;
-  paint();
-}
-async function init() {
-  const box = document.getElementById("layers");
-  for (const Lr of LAYERS) {
-    const b = document.createElement("button");
-    b.textContent = Lr.title; b.dataset.id = Lr.id;
-    b.onclick = () => setLayer(Lr);
-    box.appendChild(b);
-  }
-  document.getElementById("kind-select").onchange = e => { kind = e.target.value; selected = null; paint(); };
-  world = await fetch("https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json").then(r => r.json());
-  await setLayer(LAYERS[0]);
-}
-init();
-</script>
-</body>
-</html>
+const LAYERS=[{id:"rails",title:"Rails",blurb:"Can you move value here?",file:"data/rails.json",defaultKind:"nodes"},{id:"fiscal",title:"Fiscal",blurb:"Is capital allowed to sit?",file:"data/fiscal.json",defaultKind:"property-rights"},{id:"energy",title:"Energy",blurb:"Cheap firm watts",file:"data/energy.json",defaultKind:"firm-share"},{id:"vitality",title:"Vitality",blurb:"Can a body compound here?",file:"data/vitality.json",defaultKind:"life-expectancy"},{id:"timeprice",title:"Time-price",blurb:"What an hour buys",file:"data/timeprice.json",defaultKind:"hours-for-10k-usd"}];
+const NAME_ALIAS={"United States of America":"United States","Russia":"Russian Federation","South Korea":"Korea, Rep.","Egypt":"Egypt, Arab Rep.","Czechia":"Czech Republic"};
+let cache={},world=null,current=LAYERS[0],kind=current.defaultKind,countryLayer=null,pointLayer=null,selected=null;
+const map=L.map("map",{zoomControl:true,minZoom:2});map.setView([20,10],2);
+map.createPane("choro");map.getPane("choro").style.zIndex=300;map.createPane("pts");map.getPane("pts").style.zIndex=450;
+function heat(t,worse){const x=worse?1-t:t;const s=[[27,67,50],[42,157,143],[201,162,39],[194,109,58]];const i=Math.min(s.length-2,Math.floor(x*(s.length-1)));const f=x*(s.length-1)-i;const a=s[i],b=s[i+1];return "rgb("+a.map((v,k)=>Math.round(v+(b[k]-v)*f)).join(",")+")"}
+function normName(s){return s?(NAME_ALIAS[s]||s):""}
+async function loadLayer(meta){if(!cache[meta.id]){const raw=await fetch(meta.file).then(r=>r.json());cache[meta.id]=raw.map(r=>({...r,date:r.date||{raw:String(r.year||""),year:r.year},description:r.description||r.label||""}))}return cache[meta.id]}
+function kindsFor(recs){return[...new Set(recs.map(r=>r.kind).filter(Boolean))]}
+function filtered(recs,k){const b=recs.filter(r=>!k||r.kind===k);return b.length?b:recs}
+function countryValues(recs){const acc={};for(const r of recs){if(!r.country||r.kind==="plant"||r.kind==="place")continue;const key=normName(r.country);if(!acc[key])acc[key]={sum:0,n:0,dir:r.direction,unit:r.unit};if(typeof r.value==="number"){acc[key].sum+=r.value;acc[key].n++}}const out={};for(const [k,v] of Object.entries(acc))out[k]={value:v.sum/v.n,dir:v.dir,unit:v.unit};return out}
+function extent(vals){const nums=Object.values(vals).map(v=>v.value).filter(Number.isFinite);return nums.length?[Math.min(...nums),Math.max(...nums)]:[0,1]}
+function paint(){const recs=filtered(cache[current.id]||[],kind);const vals=countryValues(recs);const [lo,hi]=extent(vals);const worse=Object.values(vals)[0]?.dir==="higher-worse";document.getElementById("legend-scale").textContent=`${lo.toFixed(1)} → ${hi.toFixed(1)} ${Object.values(vals)[0]?.unit||""}`;if(countryLayer)map.removeLayer(countryLayer);if(pointLayer)map.removeLayer(pointLayer);
+countryLayer=L.geoJSON(world,{pane:"choro",style:feat=>{const name=feat.properties.name;const hit=vals[name]||vals[normName(name)]||vals[NAME_ALIAS[name]];const t=hit?(hit.value-lo)/(hi-lo||1):null;return{color:selected===name?"#f4efe4":"rgba(244,239,228,.25)",weight:selected===name?2:.5,fillColor:t==null?"#1a2233":heat(t,worse),fillOpacity:t==null?.35:.78}},onEachFeature:(feat,layer)=>{layer.on("click",()=>{selected=feat.properties.name;openCountry(feat.properties.name,vals,recs);paint()})}}).addTo(map);
+const pts=recs.filter(r=>r.lat!=null&&r.lng!=null);pointLayer=L.layerGroup();const maxV=Math.max(1,...pts.map(p=>p.value||1));for(const p of pts){L.circleMarker([p.lat,p.lng],{pane:"pts",radius:Math.min(4+14*Math.sqrt((p.value||1)/maxV),18),color:"#c9a227",fillColor:"#c9a227",fillOpacity:.35,weight:1}).bindPopup(`<b>${p.label}</b><br>${p.value??""} ${p.unit||""}`).addTo(pointLayer)}pointLayer.addTo(map);
+document.getElementById("p-title").textContent=current.title;document.getElementById("p-blurb").textContent=current.blurb+" · "+recs.length+" records";if(!selected){document.getElementById("p-stat").textContent=Object.keys(vals).length+" countries";document.getElementById("list").innerHTML=recs.slice(0,12).map(r=>`<li><b>${r.label}</b> — ${r.value??""} ${r.unit||""}</li>`).join("")}}
+function openCountry(name,vals,recs){const hit=vals[name]||vals[normName(name)];document.getElementById("p-title").textContent=name;document.getElementById("p-stat").textContent=hit?`${hit.value.toFixed(1)} ${hit.unit||""}`:"No value";const rows=recs.filter(r=>r.country===name||normName(r.country)===name);document.getElementById("list").innerHTML=(rows.length?rows:[]).slice(0,20).map(r=>`<li><b>${r.label}</b><br>${r.value??""} ${r.unit||""} · ${r.kind||""}</li>`).join("")||"<li>No dossier rows for this country in the active kind.</li>"}
+async function setLayer(meta){current=meta;const recs=await loadLayer(meta);const kinds=kindsFor(recs);kind=kinds.includes(meta.defaultKind)?meta.defaultKind:kinds[0];document.getElementById("kind-select").innerHTML=kinds.map(k=>`<option value="${k}" ${k===kind?"selected":""}>${k}</option>`).join("");document.querySelectorAll(".layers button").forEach(b=>b.classList.toggle("on",b.dataset.id===meta.id));const years=[...new Set(recs.map(r=>(r.date&&r.date.year)||r.year).filter(Boolean))].sort();document.getElementById("year-label").textContent=years.length?`${years[0]}–${years[years.length-1]}`:"";selected=null;paint()}
+async function init(){for(const Lr of LAYERS){const b=document.createElement("button");b.textContent=Lr.title;b.dataset.id=Lr.id;b.onclick=()=>setLayer(Lr);document.getElementById("layers").appendChild(b)}document.getElementById("kind-select").onchange=e=>{kind=e.target.value;selected=null;paint()};world=await fetch("https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json").then(r=>r.json());await setLayer(LAYERS[0])}init();
+</script></body></html>
