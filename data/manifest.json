@@ -1,0 +1,11 @@
+{
+  "built": "2026-09-21",
+  "note": "v1 ships a focus-country extract. Rebuild full layers with tools/build_layers.py.",
+  "layers": [
+    {"id": "rails", "title": "Rails", "file": "data/rails.json", "defaultKind": "nodes"},
+    {"id": "fiscal", "title": "Fiscal", "file": "data/fiscal.json", "defaultKind": "property-rights"},
+    {"id": "energy", "title": "Energy", "file": "data/energy.json", "defaultKind": "firm-share"},
+    {"id": "vitality", "title": "Vitality", "file": "data/vitality.json", "defaultKind": "life-expectancy"},
+    {"id": "timeprice", "title": "Time-price", "file": "data/timeprice.json", "defaultKind": "hours-for-10k-usd"}
+  ]
+}
